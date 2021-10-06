@@ -7,16 +7,16 @@ using namespace std;
 class Solution{
   public:
     vector<int> duplicates(int arr[], int n) {
-        unordered_map<int,int> umap;
         vector<int> res;
-        for(int i=0;i<n;i++)
-            umap[arr[i]]++;
-        
-        for(auto it = umap.begin(); it != umap.end(); it++)
-            if(it->second > 1) res.push_back(it->first);
-            
+        int last;
+        sort(arr, arr+n);
+        for(int i=0;i<n;i++){
+            if(arr[i] == arr[i+1] && arr[i] != last){
+                res.push_back(arr[i]);
+                last = arr[i];
+            }
+        }
         if(res.size() == 0) return {-1};
-        sort(res.begin(), res.end());
         return res;
     }
 };
