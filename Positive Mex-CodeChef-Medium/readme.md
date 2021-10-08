@@ -1,4 +1,4 @@
-Chef recently read about the mex function and came up with a function similar to that. For a (possibly empty) sequence of positive integers S, Chef defines f(S) as the smallest positive integer that does not appear in S. For example, f([])=1, f([3,4,3,5])=1, f([2,5,1,1,2,3])=4.
+<h2>Chef recently read about the mex function and came up with a function similar to that. For a (possibly empty) sequence of positive integers S, Chef defines f(S) as the smallest positive integer that does not appear in S. For example, f([])=1, f([3,4,3,5])=1, f([2,5,1,1,2,3])=4.</h2>
 
 Chef's friend heard about Chef's idea and found it really cool. Therefore, he sent a sequence a1,a2,…,aN to Chef and asked him to find the sum of f(S) over all 2N possible subsequences S of this sequence. Since Chef is busy, he entrusted you with solving the problem.
 
