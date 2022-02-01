@@ -5,13 +5,16 @@ class MyCalendar {
     }
     
     public boolean book(int start, int end) {
-        Integer prev = tMap.floorKey(start), next = tMap.ceilingKey(start);
-        boolean flag = false;
-        if((prev == null || tMap.get(prev) <= start) && (next == null || end <= next)) {
-            tMap.put(start, end);
-            flag = true;
-        }
-        return flag;
+        //condition around start time
+        //start < lower entry end time then return false.
+        boolean flag = true;
+        if(tMap.floorEntry(start) != null && start < tMap.floorEntry(start).getValue()) return false;
+        
+        //condition around end time
+        //end > higher entry start time then return false.
+        if(tMap.ceilingEntry(start) != null && end > tMap.ceilingEntry(start).getKey()) return false;
+        tMap.put(start, end);
+        return true;
     }
 }
 
