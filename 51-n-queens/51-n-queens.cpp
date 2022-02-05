@@ -8,42 +8,30 @@ public:
         
         for(int i=0;i<n;i++) board[i] = s;
         
-        helper(0, board, n);
+        vector<int> leftRow(n, 0), upperDiagonal(2*n - 1, 0), lowerDiagonal(2*n - 1, 0);
+        helper(0, board, leftRow, upperDiagonal, lowerDiagonal, n);
         
         return ans;
     }
     
-    void helper(int col, vector<string>& board, int n) {
+    void helper(int col, vector<string>& board, vector<int> leftRow, vector<int>& upperDiagonal, vector<int>& lowerDiagonal, int n) {
         if(col == n) {
             ans.push_back(board);
             return;
         }
         
         for(int row=0;row<n;row++) {
-            if(isSafe(row, col, board, n)) {
+            if(leftRow[row] == 0 && lowerDiagonal[row + col] == 0 && upperDiagonal[n - 1 + col - row] == 0) {
                 board[row][col] = 'Q';
-                helper(col + 1, board, n);
+                leftRow[row] = 1;
+                lowerDiagonal[row + col] = 1;
+                upperDiagonal[n - 1 + col - row] = 1;
+                helper(col + 1, board, leftRow, upperDiagonal, lowerDiagonal, n);
                 board[row][col] = '.';
+                leftRow[row] = 0;
+                lowerDiagonal[row + col] = 0;
+                upperDiagonal[n - 1 + col - row] = 0;
             }
         }
-    }
-    
-    bool isSafe(int row, int col, vector<string>& board, int n) {
-        int tempRow = row;
-        int tempCol = col;
-        
-        while(tempRow >= 0 && tempCol >= 0) if(board[tempRow--][tempCol--] == 'Q') return false;
-        
-        tempCol = col;
-        tempRow = row;
-         
-        while(tempCol >= 0) if(board[tempRow][tempCol--] == 'Q') return false;
-        
-        tempCol = col;
-        tempRow = row;
-        
-        while(tempCol >= 0 && tempRow < n) if(board[tempRow++][tempCol--] == 'Q') return false;
-        
-        return true;
     }
 };
