@@ -3,7 +3,6 @@ public:
     vector<int> singleNumber(vector<int>& nums) {
         vector<int> ans(2);
         unsigned int x = 0;
-        int ones = 0, twos = 0;
         for(auto i : nums) x ^= i;
         x = (x ^ (x-1)) & x;
         for(auto elem : nums) {
