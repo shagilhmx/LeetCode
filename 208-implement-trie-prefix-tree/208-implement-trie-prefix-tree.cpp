@@ -24,30 +24,6 @@ struct Node {
 };
 
 class Trie {
-    struct Node {
-    Node* link[26];
-    bool flag = false;
-    
-    bool containsKey(char ch) {
-        return link[ch - 'a'] != NULL;
-    }
-    
-    void put(char ch, Node* node) {
-        link[ch - 'a'] = node;
-    }
-    
-    Node* get(char ch) {
-        return link[ch - 'a'];
-    }
-    
-    void setEnd() {
-        flag = true;
-    }
-    
-    bool isEnd() {
-        return flag;
-    }
-};
     
     private: Node* root;
 public:
