@@ -1,15 +1,20 @@
 class Solution {
 public:
     bool isAnagram(string s, string t) {
-        unordered_map<char, int> hmap;
         
         if(s.length() != t.length()) return false;
         
-        for(auto ch : s) hmap[ch]++;
+        sort(s.begin(), s.end());
+        sort(t.begin(), t.end());
         
-        for(auto ch : t) if(hmap.find(ch) != hmap.end()) hmap[ch]--;
+        long firstStringSum = 0, secondStringSum = 0;
         
-        for(auto itr = hmap.begin(); itr != hmap.end(); itr++) if(itr -> second != 0) return false;
-        return true;
+        for(int i=0;i<s.length();i++) firstStringSum += (i + 1) * int(s[i] - 'a' + 1);
+        
+        for(int i=0;i<t.length();i++) secondStringSum += (i + 1) * int(t[i] - 'a' + 1);
+        
+        if(firstStringSum == secondStringSum) return true;
+        
+        return false;
     }
 };
