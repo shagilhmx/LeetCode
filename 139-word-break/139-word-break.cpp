@@ -1,22 +1,34 @@
 class Solution {
 public:
     bool wordBreak(string s, vector<string>& wordDict) {
-        unordered_map<int, bool> hmap(s.length());
-        return helper("", 0, s, wordDict, hmap);
-    }
-    
-    bool helper(string sub_ans, int index, string s, vector<string>& wordDict, unordered_map<int, bool>& hmap) {
-        if(index >= s.length()) return true;
-        if(hmap.count(index)) return hmap[index];
+        int n = s.length();
+        bool dp[n+1][n+1];
         
+        unordered_set<string> dict;
         
-        for(int i=index;i<s.length();i++)
-            if(found(s.substr(index, i + 1 - index), wordDict) && helper(s.substr(index, i + 1 - index), i + 1, s, wordDict, hmap)) return hmap[index] = true;
-        return hmap[index]= false;
-    }
-    
-    bool found(string word, vector<string>& wordDict) {
-        for(string key : wordDict) if(key == word) return true;
-        return false;
+        for(string word : wordDict) dict.insert(word);
+        
+        for(int i=1;i<=n;++i) { //window size
+            int start = 1;
+            int end = i;
+            
+            while(end <= n) { //sliding window
+                string sub = s.substr(start - 1, i);
+                if(dict.find(sub) != dict.end()) dp[start][end] = true;
+                else { //partition into smaller and check
+                    bool flag = false;
+                    for(int p=start;p<end;++p) {
+                        if(dp[start][p] && dp[p + 1][end]) {
+                            flag = true;
+                            break;
+                        }
+                    }
+                    dp[start][end] = flag;
+                }
+                start++;
+                end++;
+            }
+        }
+        return dp[1][n];
     }
 };
