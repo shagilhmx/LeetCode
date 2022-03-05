@@ -44,7 +44,9 @@ class Solution {
             Node curr = trie.root;
             while(j < str.length && curr.link[str[j] - 'a'] != null) {
                 curr = curr.link[str[j++] - 'a'];
-                if(curr.isEnd) dp[j] = true;
+                if(curr.isEnd) {
+                    dp[j] = true;
+                }
             }
         }
         return dp[str.length];
