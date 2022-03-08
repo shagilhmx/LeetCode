@@ -1,9 +1,10 @@
 class Solution {
 public:
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
-        vector<vector<int>> dp(obstacleGrid.size() + 1, vector<int>(obstacleGrid[0].size() + 1, -1));
-        if(obstacleGrid[obstacleGrid.size()-1][obstacleGrid[0].size()-1] == 1) return 0;
-        return helper(0, 0, obstacleGrid.size(), obstacleGrid[0].size(), obstacleGrid, dp);
+        int n = obstacleGrid.size(), m = obstacleGrid[0].size();
+        vector<vector<int>> dp(n + 1, vector<int>(m + 1, -1));
+        if(obstacleGrid[n-1][m-1] == 1) return 0;
+        return helper(0, 0, n, m, obstacleGrid, dp);
     }
     
     int helper(int i, int j, int n, int m, vector<vector<int>>& obstacleGrid, vector<vector<int>>& dp) {
