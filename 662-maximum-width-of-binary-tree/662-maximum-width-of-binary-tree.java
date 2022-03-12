@@ -1,47 +1,51 @@
 /**
  * Definition for a binary tree node.
- * struct TreeNode {
+ * public class TreeNode {
  *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
  */
-class Solution {
-public:
-    long long int widthOfBinaryTree(TreeNode* root) {
-        queue<pair<TreeNode*, int>> q;
-		if (root) q.push({root, 0});
-		long long ans = 0;
-		// set the start num of current level.
-		long long cur_level_start_num = 0; 
-		// a pointer to mark the most right node in current level.
-		TreeNode* cur_level_end_node = root; 
-		// a pointer to mark the most right node in next level.
-		TreeNode* next_level_end_node = nullptr;
-		
-		while (!q.empty()) {
-			pair<TreeNode*, int> cur = q.front(); q.pop();
-			if (cur.first->left) {
-				q.push({cur.first->left, (long long) 2*cur.second + 1});
-				next_level_end_node = cur.first->left;
-			}
-			if (cur.first->right) {
-				q.push({cur.first->right, (long long) 2*cur.second + 2});
-				next_level_end_node = cur.first->right;
-			}
-			
-			// if reached the most right node in current level (the end node of current level), update the result.
-			if (cur.first == cur_level_end_node) {
-				ans = std::max(ans, cur.second - cur_level_start_num + 1);
-				// set the start num of next level (the num of the most left node in next level, which is the front of the queue).
-				cur_level_start_num = q.front().second;
-				// set the end node as the most right node in next level.
-				cur_level_end_node = next_level_end_node;
-			}
-		}
-		return ans;
+class Pair {
+    TreeNode node;
+    int num;
+    Pair(TreeNode node, int num) {
+        this.node = node;
+        this.num = num;
     }
-};
+}
+
+class Solution {
+    public int widthOfBinaryTree(TreeNode root) {
+        if(root == null) return 0;
+        
+        int ans = 0;
+        Queue<Pair> q = new LinkedList<>();
+        q.offer(new Pair(root, 0));
+        
+        while(!q.isEmpty()) {
+            int size = q.size();
+            int data = q.peek().num;
+            int first = 0, last = 0;
+            
+            for(int i=0;i<size;i++) {
+                int curr_id = q.peek().num - data;
+                TreeNode node = q.peek().node;
+                q.poll();
+                if(i == 0) first = curr_id;
+                if(i == size - 1) last = curr_id;
+                if(node.left != null) q.offer(new Pair(node.left, curr_id * 2 + 1));
+                if(node.right != null) q.offer(new Pair(node.right, curr_id * 2 + 2));
+            }
+            ans = Math.max(ans, last - first + 1);
+        }
+        return ans;
+    }
+}
