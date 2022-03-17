@@ -1,10 +1,12 @@
 class Solution {
 public:
     int minInsertions(string s) {
+        //apply lps to the given string and subtract it from the string length.
+        
         return s.length() - longestPalindromeSubseq(s);
     }
     
-    int longestPalindromeSubseq(string s) {
+    int longestPalindromeSubseq(string &s) {
         /*create a copy of the original string and reverse it,
         now do the longest common Subsequence on the two string,
         i.e get the longest common subsequence of the two strings.
