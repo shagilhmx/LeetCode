@@ -1,31 +1,18 @@
 class Solution {
-    public int lengthOfLIS(int[] nums) {
-        int n = nums.length;
-        int[] dp = new int[n];
-        Arrays.fill(dp, -1);
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ans;
+        ans.push_back(nums[0]);
         
-        int res = 1;
-        for(int i=0;i<n;i++)
-            res = Math.max(res, helper(nums, dp, i));
-        
-        return res;
-    }
-    
-    int helper(int[] nums, int[] dp, int index) {
-        if(index == nums.length-1) {
-            dp[index] = 1;
-            return 1;
+        for(int i=1;i<n;i++) {
+            if(nums[i] > ans.back())
+                ans.push_back(nums[i]);
+            else {
+                int index = lower_bound(ans.begin(), ans.end(), nums[i]) - ans.begin();                     //same as binary search.
+                ans[index] = nums[i];
+            }
         }
-        
-        if(dp[index] != -1) return dp[index];
-        
-        int res = 1;
-        
-        for(int i=index+1;i<nums.length;i++) 
-            if(nums[i] > nums[index])
-                res = Math.max(res, 1 + helper(nums, dp, i));
-        
-        dp[index] = res;
-        return res;
+        return ans.size();
     }
-}
+};
