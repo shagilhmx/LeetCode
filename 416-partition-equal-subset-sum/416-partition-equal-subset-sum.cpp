@@ -1,31 +1,31 @@
 class Solution {
-    bool helper(vector<int>& nums , int i , int sum , vector<vector<int>>& dp){
-        if(sum == 0)
-            return true;
-        
-        if(i>=nums.size())
-            return false;
-        
-        if(dp[i][sum] != -1)
-            return dp[i][sum];
-        
-        if(nums[i] <= sum)
-            return dp[i][sum] = helper(nums,i+1,sum-nums[i],dp) || helper(nums,i+1,sum,dp);
-        
-        else
-            return dp[i][sum] = helper(nums,i+1,sum,dp);
-    }
 public:
     bool canPartition(vector<int>& nums) {
         int sum = 0;
-        for(auto n : nums){
-            sum += n;
-        }
-        if(sum%2 != 0)
-            return false;
+        
+        for(int el : nums) sum += el;
+        
+        if(sum % 2 != 0) return false;
+        
+        sum = sum / 2;
         int n = nums.size();
-        sum = sum/2;
-        vector<vector<int>> dp(n+1 , vector<int>(sum+1 , -1));
-        return helper(nums,0,sum,dp);
+        
+        int dp[n + 1][sum + 1];
+        
+        //initilization
+        for(int i=0;i<=sum;i++) 
+            dp[0][i] = false;
+        for(int i=0;i<=n;i++)
+            dp[i][0] = true;
+        
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=sum;j++) {
+                if(nums[i - 1] <= j)
+                    dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i - 1]];
+                else
+                    dp[i][j] = dp[i - 1][j];
+            }
+        }
+        return dp[n][sum];
     }
 };
