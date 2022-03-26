@@ -1,5 +1,6 @@
 class Solution {
     public int findMaxForm(String[] strs, int m, int n) {
+        //using knapsack.
         int r = strs.length;
         int[][] dp = new int[m+1][n+1];
         
