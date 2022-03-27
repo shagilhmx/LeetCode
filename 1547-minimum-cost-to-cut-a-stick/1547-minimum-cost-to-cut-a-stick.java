@@ -1,29 +1,20 @@
 class Solution {
-    int dp[101][101];
-public:
-    int minCost(int n, vector<int>& cuts) {
-        memset(dp, -1, sizeof(dp));
+    public int minCost(int n, int[] cuts) {
+        Arrays.sort(cuts);
+        int m = cuts.length;
+        int[][] dp = new int[m+1][m+1];
         
-        sort(cuts.begin(), cuts.end());
-        
-        return solve(0, n, cuts, 0, cuts.size() - 1, dp);
-    }
-    
-    int solve(int start, int end, vector<int>& cuts, int st, int ed, int dp[101][101]) {
-        if(st > ed) return 0;
-        
-        if(dp[st][ed] != -1)
-            return dp[st][ed];
-        
-        int cost = INT_MAX;
-        
-        for(int i=st;i<=ed;i++) {
-            int left = solve(start, cuts[i], cuts, st, i - 1, dp);
-            int right = solve(cuts[i], end, cuts, i + 1, ed, dp);
-            int curr_cost = (end - start) + left + right;
-            cost = min(cost, curr_cost);
+        for (int i = 1; i <= m; i++) {
+            for (int j = 0; j <= m - i; j++) {
+                int k = j + i;
+                int min = Integer.MAX_VALUE;
+                for (int p = j; p < k; p++) {
+                    min = Math.min(min, dp[j][p] + dp[p + 1][k]);
+                }
+                int len = (k == m ? n: cuts[k]) - (j == 0 ? 0 : cuts[j - 1]);
+                dp[j][k] = min + len;
+            }
         }
-        
-        return dp[st][ed] = cost;
+        return dp[0][m];
     }
-};
+}
