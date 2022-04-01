@@ -2,6 +2,7 @@ class Solution {
     int dp[10001];
 public:
     bool canJump(vector<int>& nums) {
+        //using memoisation.
         memset(dp, -1, sizeof(dp));
         return helper(0, nums, nums.size()-1);
     }
