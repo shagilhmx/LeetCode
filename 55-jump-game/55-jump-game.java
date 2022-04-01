@@ -1,24 +1,16 @@
 class Solution {
-    int dp[10001];
-public:
-    bool canJump(vector<int>& nums) {
-        //using memoisation.
-        memset(dp, -1, sizeof(dp));
-        return helper(0, nums, nums.size()-1);
-    }
-    
-    bool helper(int index, vector<int>& nums, int n) {
-        if(index > n)
-            return false;
-        if(dp[index] != -1)
-            return dp[index];
-        if(index == n)
-            return dp[index] = true;
+    public boolean canJump(int[] nums) {
+        //using greedy approch.
+        /*we take a nums size value to reach to and start from end - 1 and check
+        if we can reach to end from end - 1 by adding the elem, if yes then we
+        make our goal to end - 1 - 1, which is end - 1 - i.
+        */
+        int toReach = nums.length - 1;
         
-        for(int i=nums[index];i>=1;i--) {
-            if(helper(index + i, nums, n))
-                return dp[index] = true;
+        for(int i=toReach-1;i>=0;i--) {
+            if(nums[i] + i >= toReach)
+                toReach = i;
         }
-        return dp[index] = false;
+        return (toReach == 0) ? true : false; 
     }
-};
+}
