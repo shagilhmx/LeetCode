@@ -1,23 +1,18 @@
 class Solution {
-    int dp[10001];
-public:
-    int jump(vector<int>& nums) {
-        memset(dp, -1, sizeof(dp));
-        return helper(0, nums, nums.size()-1);
-    }
-    
-    int helper(int index, vector<int>& nums, int n) {
-        if(index > n)
-            return INT_MAX-1;
-        if(dp[index] != -1)
-            return dp[index];
-        if(index == n)
-            return 0;
+    public int jump(int[] nums) {
+        int n = nums.length - 1;
+        int res = 0;
+        int left = 0, right = 0; //for window size.
         
-        int temp = INT_MAX-1;
-        for(int i=1;i<=nums[index] && i + index < nums.size();i++) {
-            temp = min(temp, helper(index + i, nums, n) + 1);
+        while(right < n) {
+            int maxJump = 0;
+            for(int i=left;i<=right;i++)
+                maxJump = Math.max(maxJump, i + nums[i]);
+            
+            left = right + 1;
+            right = maxJump;
+            res++;
         }
-        return dp[index] = temp;
+        return res;
     }
-};
+}
