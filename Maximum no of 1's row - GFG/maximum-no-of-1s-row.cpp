@@ -10,14 +10,24 @@ class Solution
         int maxOnes (vector <vector <int>> &Mat, int N, int M)
         {
             // your code here
-            int maxIndex, maxVal = 0;
+            int maxIndex, maxVal = 0, cnt;
             for(int i=0;i<N;i++) {
-                int sum = 0;
-                for(int j=0;j<M;j++) {
-                    sum += Mat[i][j];
+                int low = 0, high = M - 1, oneIndex = -1;
+                while(low <= high) {
+                    int mid = (low + high) / 2;
+                    if(Mat[i][mid] < 1)
+                        low = mid + 1;
+                    else {
+                        high = mid - 1;
+                        oneIndex = mid;
+                    }
                 }
-                if(sum > maxVal) {
-                    maxVal = sum;
+                if(oneIndex == -1)
+                    cnt = 0;
+                else cnt = M - oneIndex;
+                
+                if(cnt > maxVal) {
+                    maxVal = cnt;
                     maxIndex = i;
                 }
             }
