@@ -1,22 +1,33 @@
 class Solution {
 public:
     int threeSumMulti(vector<int>& arr, int target) {
-        int mod = 1e9 + 7;
-        int n = arr.size();
-        
+        unordered_map<int, long> c;
+        for (int a : arr) c[a]++;
         long res = 0;
-        for(int i=0;i<n;i++) {
-            vector<int> mpp(101, 0);
-            for(int j=i+1;j<n;j++) {
-                int k = target - arr[i] - arr[j];
-                
-                if(k >= 0 && k <= 100 && mpp[k] > 0) {
-                    res += mpp[k];
-                    res %= mod;
-                }
-                mpp[arr[j]]++;
+        for (auto it : c)
+            for (auto it2 : c) {
+                int i = it.first, j = it2.first, k = target - i - j;
+                if (!c.count(k)) continue;
+                if (i == j && j == k)
+                    res += c[i] * (c[i] - 1) * (c[i] - 2) / 6;
+                else if (i == j && j != k)
+                    res += c[i] * (c[i] - 1) / 2 * c[k];
+                else if (i < j && j < k)
+                    res += c[i] * c[j] * c[k];
             }
-        }
-        return res;
+        return res % int(1e9 + 7);
     }
 };
+
+/*
+    case 1:
+    when i == j == k, we have to make 3 subset out of n numners which are equal, which will
+    be equal to target, we can do it by taking n!/(3!*(n-3)!) = n*(n-1)*(n-2) / 6.
+    
+    case 2:
+    only two numbers are equal, i == j != k n!/(2!*(n-2)!) * c[k] ,(c[k] : count of k)
+    n*(n-2)/2 * c[k].
+    
+    case 3:
+    all the number distincy, i < j < k, c[i] *c[j] *c[k].
+    */
