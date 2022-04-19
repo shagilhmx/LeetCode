@@ -1,43 +1,47 @@
 /**
  * Definition for a binary tree node.
- * struct TreeNode {
+ * public class TreeNode {
  *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
  */
 class Solution {
-    vector<int> ans;
-    int i = 0;
-public:
-    void recoverTree(TreeNode* root) {
+    TreeNode firstMistake, secondMistake, prev;
+    public void recoverTree(TreeNode root) {
+        prev = new TreeNode(Integer.MIN_VALUE);
+        
         inorder(root);
         
-        sort(ans.begin(), ans.end());
-        
-        check(root);
+        swap(firstMistake, secondMistake);
     }
     
-    void inorder(TreeNode* root) {
-        if(!root)
+    void inorder(TreeNode root) {
+        if(root == null)
             return;
         
-        inorder(root -> left);
-        ans.push_back(root -> val);
-        inorder(root -> right);
+        inorder(root.left);
+        
+        if(firstMistake == null && root.val < prev.val)
+            firstMistake = prev;
+        if(firstMistake != null && root.val < prev.val)
+            secondMistake = root;
+        
+        prev = root;
+        
+        inorder(root.right);
     }
     
-    void check(TreeNode* root) {
-        if(!root)
-            return;
-        
-        check(root -> left);
-        if(root -> val != ans[i])
-            swap(root -> val, ans[i]);
-        i++;
-        check(root -> right);
+    void swap(TreeNode firstMistake, TreeNode secondMistake) {
+        int temp = secondMistake.val;
+        secondMistake.val = firstMistake.val;
+        firstMistake.val = temp;
     }
-};
+}
