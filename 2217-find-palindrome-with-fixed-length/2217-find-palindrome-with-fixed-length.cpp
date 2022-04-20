@@ -3,7 +3,6 @@ public:
     vector<long long> kthPalindrome(vector<int>& queries, int intLength) {
         int n = queries.size();
         vector<long long> ans;
-        int i = 0;
         
         int defaultLength = (intLength + 1) / 2;
         
