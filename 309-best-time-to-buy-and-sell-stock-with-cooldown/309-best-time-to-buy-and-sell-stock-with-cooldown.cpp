@@ -2,7 +2,7 @@ class Solution {
 public:
     int maxProfit(vector<int>& prices) { 
         int n = prices.size();
-        vector<vector<int>> dp(n, vector<int>(n , -1));
+        vector<vector<int>> dp(2, vector<int>(n , -1));
         
         return helper(0, prices, false, dp);
     }
