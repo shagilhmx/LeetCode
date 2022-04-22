@@ -1,5 +1,5 @@
 class Solution {
-    int dp[1001][101][3];
+    int dp[3][101][1001];
 public:
     int maxProfit(int k, vector<int>& prices) {
         memset(dp, -1, sizeof(dp));
@@ -10,8 +10,8 @@ public:
         if(index >= prices.size() || k == 0)
             return 0;
         
-        if(dp[index][k][onGoing] != -1)
-            return dp[index][k][onGoing];
+        if(dp[onGoing][k][index] != -1)
+            return dp[onGoing][k][index];
         
         int profit = 0;
         if(onGoing) {
@@ -25,6 +25,6 @@ public:
             profit = max(buy, notBuy);
         }
         
-        return dp[index][k][onGoing] = profit;
+        return dp[onGoing][k][index] = profit;
     }
 };
