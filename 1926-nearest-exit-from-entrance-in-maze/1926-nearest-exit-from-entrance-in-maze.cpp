@@ -1,6 +1,7 @@
 class Solution {
 public:
     int nearestExit(vector<vector<char>>& maze, vector<int>& entrance) {
+        //simple bfs
         int n = maze.size(), m = maze[0].size();
         
         vector<pair<int, int>> dir{{0,1}, {0, -1}, {1, 0}, {-1, 0}};
