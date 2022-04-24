@@ -5,7 +5,8 @@ class UndergroundSystem {
     unordered_map<int, pair<string,int>> inTransit;
 public:
     UndergroundSystem() {
-        
+        stationTimes.clear();
+        inTransit.clear();
     }
     
     void checkIn(int id, string stationName, int t) {
