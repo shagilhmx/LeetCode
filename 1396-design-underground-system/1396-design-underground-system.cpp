@@ -1,0 +1,49 @@
+class UndergroundSystem {
+    //startStation:endStation -> {totalTime, numberOfTrips}
+    unordered_map<string, pair<long long, int>> stationTimes;
+    //customerId -> startStation
+    unordered_map<int, pair<string,int>> inTransit;
+public:
+    UndergroundSystem() {
+        
+    }
+    
+    void checkIn(int id, string stationName, int t) {
+        if(inTransit.find(id) != inTransit.end())
+            return;
+        inTransit[id] = {stationName, t};
+    }
+    
+    void checkOut(int id, string stationName, int t) {
+        auto &details = inTransit[id];
+        string startStation = details.first;
+        int startTime = details.second;
+        string key = startStation + ":" + stationName;
+        int time = t - startTime;
+        
+        if(stationTimes.find(key) != stationTimes.end()) {
+            auto &oldTimes = stationTimes[key];
+            oldTimes.first += time;
+            oldTimes.second++;
+        }
+        else {
+            stationTimes[key] = {time, 1};
+        }
+        inTransit.erase(id);
+    }
+    
+    double getAverageTime(string startStation, string endStation) {
+        string key = startStation + ":" + endStation;
+        auto &details = stationTimes[key];
+        double avg = ((double)details.first / (double)details.second);
+        return avg;
+    }
+};
+
+/**
+ * Your UndergroundSystem object will be instantiated and called as such:
+ * UndergroundSystem* obj = new UndergroundSystem();
+ * obj->checkIn(id,stationName,t);
+ * obj->checkOut(id,stationName,t);
+ * double param_3 = obj->getAverageTime(startStation,endStation);
+ */
