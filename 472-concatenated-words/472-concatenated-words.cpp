@@ -69,9 +69,8 @@ public:
         TrieNode* cur = root;
         
         for (int i = index; i < word.length(); i++){
-            char c = word[i];
-            if (cur -> links[c - 'a']){
-                cur = cur -> links[c - 'a'];
+            if (cur -> links[word[i] - 'a']){
+                cur = cur -> links[word[i] - 'a'];
                 if (cur -> flag && isConcatenated(word, root, i + 1, sections + 1)){
                     return true;
                 }
