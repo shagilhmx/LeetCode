@@ -53,7 +53,7 @@ public:
         for(auto& word : words)
             trie.insert(word);
         
-        //use bfs to check weather the word is concatenated word or not.
+        //use dfs to check weather the word is concatenated word or not.
         for(auto& s: words) {
             if(isConcatenated(s, trie.root, 0, 0))
                 res.push_back(s);
