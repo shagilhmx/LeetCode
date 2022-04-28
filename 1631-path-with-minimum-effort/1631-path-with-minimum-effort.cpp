@@ -3,6 +3,7 @@ class Solution {
     priority_queue<pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>>> pq;
 public:
     int minimumEffortPath(vector<vector<int>>& heights) {
+        //Dijkastra algorithm
         int n = heights.size(), m = heights[0].size();
         vector<vector<int>> dis(n, vector<int>(m, INT_MAX));
         
