@@ -1,10 +1,10 @@
 class Solution {
-public:
-    int maxScore(vector<int>& cardPoints, int k) {
-        int n = cardPoints.size();
-        vector<int> left(k + 1), right(k +1);
+    public int maxScore(int[] cardPoints, int k) {
+        int n = cardPoints.length;
+        int[] left = new int[k + 1];
+        int[] right = new int[k +1];
         
-        left[0] = 0, right[0] = 0;
+        left[0] = 0; right[0] = 0;
         
         for(int i=0;i<k;i++) {
             left[i + 1] = left[i] + cardPoints[i];
@@ -13,8 +13,8 @@ public:
         
         int res = 0;
         for(int i=0;i<=k;i++)
-            res = max(res, left[i] + right[k - i]);
+            res = Math.max(res, left[i] + right[k - i]);
         
         return res;
     }
-};
+}
