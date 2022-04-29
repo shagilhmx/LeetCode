@@ -1,20 +1,33 @@
 class Solution {
-    public int maxScore(int[] cardPoints, int k) {
-        int n = cardPoints.length;
-        int[] left = new int[k + 1];
-        int[] right = new int[k +1];
-        
-        left[0] = 0; right[0] = 0;
-        
-        for(int i=0;i<k;i++) {
-            left[i + 1] = left[i] + cardPoints[i];
-            right[i + 1] = right[i] + cardPoints[n - 1 - i];
+public:
+    int maxScore(vector<int>& cardPoints, int k) {
+        int res = 0, currSum = 0;
+        int n = cardPoints.size();
+        if(k >= n) {
+            for(int el : cardPoints)
+                res += el;
+            return res;
         }
         
-        int res = 0;
-        for(int i=0;i<=k;i++)
-            res = Math.max(res, left[i] + right[k - i]);
+        //sweep right;
+        int tailIndex;
+        for(int i=0;i<k;i++) {
+            currSum += cardPoints[i];
+            res = max(res, currSum);
+            tailIndex = i;
+        }
+        
+        //sweep from left while reducing the right tail.
+        int count = 0;
+        for(int i=n-1;i>=0;i--) {
+            currSum += cardPoints[i] - cardPoints[tailIndex--];
+            res = max(res, currSum);
+            
+            count++;
+            if(count >= k)
+                break;
+        }
         
         return res;
     }
-}
+};
