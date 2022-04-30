@@ -45,3 +45,6 @@ public:
         return -1;
     }
 };
+/*
+as for the edges like a -> c = a -> b -> c : [(values_at(a) -> values_at(b)) + (values_at(b) -> values_at(c))].
+*/
