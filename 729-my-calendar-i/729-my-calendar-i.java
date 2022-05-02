@@ -1,19 +1,61 @@
+class Node {
+    int start, end;
+    Node left, right;
+    
+    public Node(int start, int end) {
+        this.start = start;
+        this.end = end;
+        left = null;
+        right = null;
+        
+    }
+}
+
+class SegmentTree {
+    Node root;
+    public void add(int start, int end) {
+        root = add(start, end, root);
+    }
+    
+    private Node add(int start, int end, Node root) {
+        if(start > end)
+            return null;
+        if(root == null)
+            return new Node(start, end);
+        if(end < root.start)
+            root.left = add(start, end, root.left);
+        else if(start > root.end)
+            root.right = add(start, end, root.right);
+        
+        return root;
+    } 
+    
+    public boolean find(int start, int end) {
+        return find(start, end, root);
+    }
+    
+    private boolean find(int start, int end, Node root) {
+        if(root == null)
+            return false;
+        if(root.start == start && root.end == end)
+            return true;
+        if(end < root.start)
+            return find(start, end, root.left);
+        else if(start > root.end)
+            return find(start, end, root.right);
+        else return true;
+    }
+}
 class MyCalendar {
-    TreeMap<Integer, Integer> tMap;
+    SegmentTree st;
     public MyCalendar() {
-        tMap = new TreeMap<>();
+        st = new SegmentTree();
     }
     
     public boolean book(int start, int end) {
-        //condition around start time
-        //start < lower entry end time then return false.
-        boolean flag = true;
-        if(tMap.floorEntry(start) != null && start < tMap.floorEntry(start).getValue()) return false;
-        
-        //condition around end time
-        //end > higher entry start time then return false.
-        if(tMap.ceilingEntry(start) != null && end > tMap.ceilingEntry(start).getKey()) return false;
-        tMap.put(start, end);
+        if(st.find(start, end - 1))
+            return false;
+        st.add(start, end - 1);
         return true;
     }
 }
