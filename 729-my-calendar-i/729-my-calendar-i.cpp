@@ -4,14 +4,19 @@ public:
     MyCalendar() {}
     
     bool book(int start, int end) {
-        auto iterator = calendar.upper_bound(start);
-        bool flag = false;
+        calendar[start]++;
+        calendar[end]--;
+        int sum = 0;
         
-        if((iterator == calendar.begin() && (iterator == calendar.end() || end <= iterator -> first)) || (iterator != calendar.begin() && (start >= prev(iterator) -> second && (iterator == calendar.end() || end <= iterator -> first)))) {
-            calendar[start] = end;
-            flag = true;
+        for(auto el : calendar) {
+            sum += el.second;
+            if(sum > 1) {
+                calendar[start]--;
+                calendar[end]++;
+                return false;
+            }
         }
-        return flag;
+        return true;
     }
 };
 
