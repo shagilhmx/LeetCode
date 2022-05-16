@@ -1,34 +1,34 @@
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-        vector<vector<int>> res;
-        
-        if(nums.size() < 3) return res;
-        
+        int n = nums.size();
+        vector<vector<int>> ans;
         sort(nums.begin(), nums.end());
         
-        for(int i=0;i<nums.size()-2;i++) {
-            if(i == 0 || (i > 0 && nums[i] != nums[i-1])) {
-                int low = i + 1, high = nums.size()-1, sum = 0 - nums[i];
-                while(low < high) {
-                    if(nums[low] + nums[high] == sum) {
+        for(int i=0;i<n-1;i++) {
+            if(i == 0 ||  (i > 0 && nums[i] != nums[i - 1])) {
+                int start = i + 1, end = n - 1, res = 0 - nums[i];
+                while(start < end) {
+                    if(nums[start] + nums[end] == res) {
                         vector<int> temp;
                         temp.push_back(nums[i]);
-                        temp.push_back(nums[low]);
-                        temp.push_back(nums[high]);
-                        res.push_back(temp);
+                        temp.push_back(nums[start]);
+                        temp.push_back(nums[end]);
+                        ans.push_back(temp);
                         
-                        while(low < high && nums[low] == nums[low + 1]) low++;
-                        while(low < high && nums[high] == nums[high-1]) high--;
-                        
-                        low++;
-                        high--;
+                        while(start < end && temp[1] == nums[start])
+                            start++;
+                        while(start < end && temp[2] == nums[end])
+                            end--;
                     }
-                    else if(nums[low] + nums[high] < sum) low++;
-                    else high--;
+                    else if(nums[start] + nums[end] < res)
+                        start++;
+                    else
+                        end--;
                 }
             }
         }
-        return res;
+        
+        return ans;
     }
 };
