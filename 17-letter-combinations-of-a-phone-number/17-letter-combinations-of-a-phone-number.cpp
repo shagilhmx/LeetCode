@@ -1,26 +1,27 @@
 class Solution {
-    map<char, string> mpp;
-    vector<string> res;
+    vector<string> ans;
+    unordered_map<int, string> mpp;
 public:
     vector<string> letterCombinations(string digits) {
-        if(digits.length() == 0)
-            return {};
+        int n = digits.length();
+        if(n == 0)
+            return ans;
         
-        mpp['2'] = "abc", mpp['3'] = "def", mpp['4'] = "ghi", mpp['5'] = "jkl", mpp['6'] = "mno", mpp['7'] = "pqrs", mpp['8'] = "tuv", mpp['9'] = "wxyz";
+        mpp[2] = "abc", mpp[3] = "def", mpp[4] = "ghi", mpp[5] = "jkl", mpp[6] = "mno", mpp[7] = "pqrs", mpp[8] = "tuv", mpp[9] = "wxyz";
         
-        solve(digits, 0, "");
+        helper(0, n, digits, "");
         
-        return res;
+        return ans;
     }
     
-    void solve(string& digits, int index, string ds) {
-        if(index == digits.length()) {
-            res.push_back(ds);
+    void helper(int index, int n, string& digits, string sub_ans) {
+        if(index == n) {
+            ans.push_back(sub_ans);
             return;
         }
         
-        string temp = mpp[digits[index]];
+        string temp = mpp[digits[index] - '0'];
         for(int i=0;i<temp.length();i++)
-            solve(digits, index + 1, ds + temp[i]);
+            helper(index + 1, n, digits, sub_ans + temp[i]);
     }
 };
