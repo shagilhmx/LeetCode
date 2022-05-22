@@ -1,23 +1,25 @@
 class Solution {
 public:
     string countAndSay(int n) {
-        if(n == 1) return "1"; //base case.
+        if(n == 1)
+            return "1";
         
-        string numbers = countAndSay(n-1);
-        //say the number.
-        int i=0;
-        string tempStore = "";
+        string numbers = countAndSay(n - 1);
+        string ans;
+        
+        int i = 0;
         while(i < numbers.length()) {
+            char each = numbers[i];
             int count = 0;
-            int each = numbers[i];
-            while(i < numbers.length() && numbers[i] == each) {
+            while(i < numbers.length() && each == numbers[i]) {
                 count++;
                 i++;
             }
-            tempStore += to_string(count);
-            tempStore += each;
+            
+            ans += to_string(count);
+            ans += each;
         }
         
-        return tempStore;
+        return ans;
     }
 };
