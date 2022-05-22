@@ -1,31 +1,30 @@
 class Solution {
 public:
     int myAtoi(string s) {
-        int i = 1,j=0;
-        while(s[j] == ' '){
+        long long ans = 0;
+        int sign = 1;
+        int j = 0;
+        while(s[j] == ' ')
+            j++;
+        
+        if(s[j] == '-' || s[j] == '+') {
+            if(s[j] == '-')
+                sign = -1;
             j++;
         }
-        if(s[j] == '-' | s[j] == '+'){
-                if(s[j] == '-'){
-                    i=-1;
-                }
-            j++;
+        
+        for(int i=j;i<s.length();i++) {
+            if(isdigit(s[i])) {
+                ans = ans * 10 + (s[i] - '0');
+                if(ans * sign >= INT_MAX)
+                    return INT_MAX;
+                if(ans * sign <= INT_MIN)
+                    return INT_MIN;
             }
-        long num=0,count=0;
-        for(int y=j;y<s.length();y++){          
-            if(std::isdigit(s[y]) == 1 ){ 
-                num = 10*num + (s[y] - '0');
-                if(num*i >= INT_MAX){
-                   return INT_MAX;
-               } 
-                if(num*i <= INT_MIN){
-                    return INT_MIN;   
-                }  
-            }else{
+            else
                 break;
-            }
         }
-        num = i*num;
-        return num;
+        
+        return sign * ans;
     }
 };
