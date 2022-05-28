@@ -10,28 +10,31 @@
  * };
  */
 class Solution {
+    int currPos = 0;
 public:
-    int index = 0;
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        return buildT(preorder, inorder, index, preorder.size() - 1);
+        return build(0, preorder.size() - 1, preorder, inorder);
     }
     
-    TreeNode* buildT(vector<int>& preorder, vector<int>& inorder, int start, int end) {
-        if(start > end) return NULL;
-        int curr = preorder[index++];
-        TreeNode* newNode = new TreeNode(curr);
-        //search the position to insert the new node.
-        int pos = search(inorder, start, end, curr);
-        if(start == end) return newNode;
-        newNode -> left = buildT(preorder, inorder, start, pos - 1);
-        newNode -> right = buildT(preorder, inorder, pos + 1, end);
+    TreeNode* build(int index, int n, vector<int>& preorder, vector<int>& inorder) {
+        if(index > n) return nullptr;
         
+        int curr = preorder[currPos++];
+        TreeNode* newNode = new TreeNode(curr);
+        int pos = search(inorder, index, n, curr);
+        if(index == n)
+            return newNode;
+            
+        newNode -> left = build(index, pos - 1, preorder, inorder);
+        newNode -> right = build(pos + 1, n, preorder, inorder);
+            
         return newNode;
     }
     
-    int search(vector<int>& inorder, int start, int end, int index) {
-        for(int i=start;i<=end;i++) 
-            if(inorder[i] == index) return i;
+    int search(vector<int>& inorder, int start, int end, int curr) {
+        for(int i=start;i<=end;i++)
+            if(inorder[i] == curr)
+                return i;
         return -1;
     }
 };
