@@ -22,8 +22,6 @@ public:
             auto curr = q.front();
             q.pop();
             
-            board[curr.first][curr.second] = '.';
-            
             for(auto d : dir) {
                 int dx = d.first + curr.first;
                 int dy = d.second + curr.second;
