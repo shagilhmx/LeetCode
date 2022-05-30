@@ -1,35 +1,32 @@
 class Solution {
-public:
     vector<vector<string>> ans;
+public:
     vector<vector<string>> partition(string s) {
-        vector<string> ds;
-        
-        helper(0, s, ds);
+        helper(0, {}, s);
         
         return ans;
     }
     
-    void helper(int index, string s, vector<string>& ds) {
-        if(index >= s.length()) {
+    void helper(int index, vector<string> ds, string& s) {
+        if(index == s.length()) {
             ans.push_back(ds);
             return;
         }
         
-        //main recursive function.
-        for(int i=index;i<s.length();i++) {
+        for(int i = index;i<s.length();i++) {
             if(isPalindrome(s, index, i)) {
-                string res = s.substr(index, i - index + 1);
-                ds.push_back(res);
-                helper(i+1, s, ds);
+                ds.push_back(s.substr(index, i - index + 1));
+                helper(i + 1, ds, s);
                 ds.pop_back();
             }
         }
+        return;
     }
     
     bool isPalindrome(string s, int start, int end) {
-        while(start <= end) {
-            if(s[start++] != s[end--]) return false;
-        }
+        while(start <= end)
+            if(s[start++] != s[end--])
+                return false;
         return true;
     }
 };
