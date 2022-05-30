@@ -17,7 +17,7 @@ public:
             }
         }
 
-        //bfs to mark the middle and connected to 'X'.
+        //bfs to mark the middle and border elem connected to 'X'.
         while(!q.empty()) {
             auto curr = q.front();
             q.pop();
