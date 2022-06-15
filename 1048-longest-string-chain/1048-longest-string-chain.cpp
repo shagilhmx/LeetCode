@@ -1,48 +1,25 @@
 class Solution {
-    public int longestStrChain(String[] words) {
-        Arrays.sort(words, (a, b) -> b.length()-a.length());
-        int max = 0;
-        Trie t = new Trie();
-
-        for (String w : words) {
-            int cur = 1 + t.find(w, 0, false);
-            t.addWord(w, 0, cur);
-            max = Math.max(max, cur);
-        }
-
-        return max;
-    }
-
-    class Trie {
-        Trie[] next = new Trie[26];
-        boolean end = false;
-        int chain = 0;
-
-        void addWord(String w, int pos, int chain) {
-            if (pos == w.length()) {
-                end = true;
-                this.chain = chain;
-                return;
+    unordered_map<string, int> dp;
+public:
+    int longestStrChain(vector<string>& words) {
+        sort(words.begin(), words.end(), comparator);
+        int res = 1;
+        
+        for(auto word : words) {
+            dp[word] = 1;
+            for(int i=0;i<word.length();i++) {
+                string prev = word.substr(0, i) + word.substr(i + 1);
+                if(dp.find(prev) != dp.end()) {
+                    dp[word] = dp[prev] + 1;
+                    res = max(res, dp[word]);
+                }
             }
-            char c = w.charAt(pos);
-            if (next[c - 'a'] == null) next[c - 'a'] = new Trie();
-            next[c - 'a'].addWord(w, pos+1, chain);
         }
-
-        int find(String w, int pos, boolean added) {
-            if (pos == w.length() && added) return chain;
-
-            int max = 0;
-            for (int i = 0; i < 26 && !added; i++) {
-                if (next[i] == null) continue;
-                max = Math.max(max, next[i].find(w, pos, true));
-            }
-
-            if (pos == w.length()) return max;
-
-            char c = w.charAt(pos);
-            if (next[c - 'a'] != null) max = Math.max(max, next[c - 'a'].find(w, pos+1, added));
-            return max;
-        }
+        
+        return res;
     }
-}
+    
+    static bool comparator(string& a, string& b) {
+        return a.length() < b.length();
+    }
+};
