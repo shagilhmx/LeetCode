@@ -1,39 +1,27 @@
 class Solution {
-public:
-    int minOperations(vector<int>& nums, int x) {
-        const int len = nums.size();
-        int cumulative = 0;
+    public int minOperations(int[] nums, int x) {
+        int sum = -x, n = nums.length;
+        for(int num : nums)
+            sum += num;
+        
+        if(sum == 0)
+            return n;
+        
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, -1);
+        int currSum = 0;
+        int res = Integer.MIN_VALUE;
 
-        vector<int> prefixSum(len + 1, 0);
-        for (int i = 0; i < len; ++i)
-            prefixSum[i + 1] = nums[i] + prefixSum[i];
+        for (int i = 0; i < nums.length; ++i) {
 
-        int res = binarySearch(prefixSum, x);
+            currSum += nums[i];
+            if (map.containsKey(currSum - sum)) {
+                res = Math.max(res, i - map.get(currSum - sum));
+            }
 
-        for (int i = 1; i <= len; ++i) {
-            cumulative += nums[len - i];
-
-            int search = binarySearch(prefixSum, x - cumulative);
-
-            if (search == INT32_MAX || search > len - i) continue;
-
-            res = min(res, i + search);
+            map.put(currSum, i);
         }
 
-        return res == INT32_MAX ? -1 : res;
+        return res == Integer.MIN_VALUE ? -1 : nums.length - res;
     }
-
-    int binarySearch(vector<int>& prefixSum, int val) {
-        int left = 0, right = prefixSum.size() - 1;
-
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (prefixSum[mid] < val)
-                left = mid + 1;
-            else
-                right = mid;
-        }
-
-        return prefixSum[left] == val ? left : INT32_MAX;
-    }
-};
+}
