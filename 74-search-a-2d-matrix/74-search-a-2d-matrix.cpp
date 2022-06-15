@@ -6,7 +6,7 @@ public:
         vector<int> temp;
         
         for(int i=0;i<n;i++) {
-            if(target >= matrix[i][0] && target <= matrix[i][m - 1]) {
+            if(target <= matrix[i][m - 1]) {
                 temp = matrix[i];
                 break;
             }
