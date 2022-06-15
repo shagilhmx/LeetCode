@@ -12,7 +12,7 @@ class Solution {
         int currSum = 0;
         int res = Integer.MIN_VALUE;
 
-        for (int i = 0; i < nums.length; ++i) {
+        for (int i = 0; i < n; ++i) {
 
             currSum += nums[i];
             if (map.containsKey(currSum - sum)) {
@@ -22,6 +22,6 @@ class Solution {
             map.put(currSum, i);
         }
 
-        return res == Integer.MIN_VALUE ? -1 : nums.length - res;
+        return res == Integer.MIN_VALUE ? -1 : n - res;
     }
 }
