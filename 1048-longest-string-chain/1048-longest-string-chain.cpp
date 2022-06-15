@@ -1,45 +1,48 @@
 class Solution {
-    map<int, set<string>> wordOfSameLength;
-    map<string, int> dp;
-public:
-    int longestStrChain(vector<string>& words) {
-        sort(words.begin(), words.end(), comparator);
-        
-        for(auto el : words)
-            wordOfSameLength[el.length()].insert(el);
-        
-        int maxi = 0;
-        for(auto word : words) {
-            if(maxi > word.length())
-                return maxi;
-            
-            maxi = max(maxi, dfs(word, 1));
+    public int longestStrChain(String[] words) {
+        Arrays.sort(words, (a, b) -> b.length()-a.length());
+        int max = 0;
+        Trie t = new Trie();
+
+        for (String w : words) {
+            int cur = 1 + t.find(w, 0, false);
+            t.addWord(w, 0, cur);
+            max = Math.max(max, cur);
         }
-        
-        return maxi;
+
+        return max;
     }
-    
-    static bool comparator(string& a, string& b) {
-        return a.length() > b.length();
-    }
-    
-    int dfs(string& word, int len) {
-        if(!wordOfSameLength.count(word.length() - 1)) {
-            dp[word] = len;
-            return len;
+
+    class Trie {
+        Trie[] next = new Trie[26];
+        boolean end = false;
+        int chain = 0;
+
+        void addWord(String w, int pos, int chain) {
+            if (pos == w.length()) {
+                end = true;
+                this.chain = chain;
+                return;
+            }
+            char c = w.charAt(pos);
+            if (next[c - 'a'] == null) next[c - 'a'] = new Trie();
+            next[c - 'a'].addWord(w, pos+1, chain);
         }
-        
-        if(dp.count(word))
-            return dp[word];
-        
-        int localMax = len;
-        for(int i=0;i<word.length();i++) {
-            string predecessor = word.substr(0, i) + word.substr(i + 1);
-            if(wordOfSameLength[predecessor.length()].count(predecessor))
-                localMax = max(localMax, dfs(predecessor, len + 1));
+
+        int find(String w, int pos, boolean added) {
+            if (pos == w.length() && added) return chain;
+
+            int max = 0;
+            for (int i = 0; i < 26 && !added; i++) {
+                if (next[i] == null) continue;
+                max = Math.max(max, next[i].find(w, pos, true));
+            }
+
+            if (pos == w.length()) return max;
+
+            char c = w.charAt(pos);
+            if (next[c - 'a'] != null) max = Math.max(max, next[c - 'a'].find(w, pos+1, added));
+            return max;
         }
-        
-        dp[word] = localMax;
-        return localMax;
     }
-};
+}
