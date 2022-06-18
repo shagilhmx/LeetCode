@@ -4,7 +4,7 @@ public:
         sort(boxTypes.begin(), boxTypes.end(), comparator);
         
         int maxSize = 0;
-        for(auto each : boxTypes) {
+        for(auto& each : boxTypes) {
             if(truckSize < each[0]) {
                 maxSize += truckSize * each[1];
                 truckSize = 0;
@@ -18,7 +18,7 @@ public:
         return maxSize;
     }
     
-    static bool comparator(vector<int> a, vector<int> b) {
+    static bool comparator(vector<int>& a, vector<int>& b) {
         return a[1] > b[1];
     }
 };
