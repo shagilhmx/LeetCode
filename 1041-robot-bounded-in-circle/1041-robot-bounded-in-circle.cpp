@@ -58,10 +58,6 @@ public:
             }
         }
         
-        return (originVerifier(end.first, end.second) || currDir != 'N') ? true : false;
-    }
-    
-    bool originVerifier(int x, int y) {
-        return (x == 0 && y == 0) ? true : false;
+        return ((end.first == 0 && end.second == 0) || currDir != 'N') ? true : false;
     }
 };
