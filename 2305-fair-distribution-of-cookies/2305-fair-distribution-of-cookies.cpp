@@ -19,6 +19,8 @@ public:
             dist[i] += cookies[index];
             solve(index + 1, k, cookies, dist);
             dist[i] -= cookies[index];
+            if(dist[i] == 0)
+                break;
         }
     }
 };
