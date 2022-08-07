@@ -3,8 +3,21 @@ class Solution {
 public:
     int jump(vector<int>& nums) {
         memset(dp, -1, sizeof(dp));
-        return helper(0, nums, nums.size()-1);
+        //return helper(0, nums, nums.size()-1);
         //return solve(0, nums, nums.size()-1);
+        return dpSolution(nums);
+    }
+    
+    int dpSolution(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n, 10001);
+        dp[n - 1] = 0;
+    
+        for(int i=n-2;i>=0;i--)
+            for(int jumpLen=1;jumpLen<=nums[i];jumpLen++)
+                dp[i] = min(dp[i], 1 + dp[min(n - 1, jumpLen + i)]);
+    
+        return dp[0];
     }
     
     int solve(int index, vector<int>& nums, int n) {
